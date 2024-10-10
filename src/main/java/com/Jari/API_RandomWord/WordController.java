@@ -16,6 +16,7 @@ public class WordController {
             new Word("Stockholm"),
             new Word("Växjö")
     ));
+    static Word thisWord = new Word();
 
     @PostMapping("/word/add")
     public void addWord(@RequestBody Word word){
@@ -24,12 +25,24 @@ public class WordController {
 
     @GetMapping("/word")
     public Word getWord(){
-        int listL = wordList.size();
-        Random rand = new Random();
-        int randomIndex = rand.nextInt(0, listL);
-        Word word = wordList.get(randomIndex);
+        if (thisWord.getWord().equals("")){
+            int listL = wordList.size();
+            Random rand = new Random();
+            int randomIndex = rand.nextInt(0, listL);
+            thisWord = wordList.get(randomIndex);
+        }
 
-        return word;
+        return thisWord;
+    }
+
+    @PostMapping("/counter/add")
+    public void counterAdd(){
+        thisWord.AddCounter();
+    }
+
+    @GetMapping("/counter")
+    public int getCounter(){
+        return thisWord.getCounter();
     }
 
 }
